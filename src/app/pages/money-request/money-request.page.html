@@ -1,0 +1,106 @@
+<app-simple-toolbar title="Solicitar dinero"></app-simple-toolbar>
+
+<ion-content [fullscreen]="true">
+  <!-- @if(loading) {
+    <ion-progress-bar type="indeterminate"></ion-progress-bar>
+  } -->
+    <ion-grid>
+        <ion-row class="ion-justify-content-center">
+            <ion-col size="11">
+                <form [formGroup]="moneyRequestForm" (ngSubmit)="register()">
+
+                  <!-- <ion-item>
+                    <ion-checkbox formControlName="factura" (ionChange)="onCheckButtonChange('factura')">Factura</ion-checkbox>
+                    <ion-checkbox id="nota-pago" formControlName="notaDePago" (ionChange)="onCheckButtonChange('notaPago')">Nota de pago</ion-checkbox>
+                  </ion-item> -->
+
+                  <ion-item>
+                    <ion-select label="Área" labelPlacement="floating" formControlName="area">
+                      @for (area of areas; track area) {
+                        <ion-select-option [value]="area._id">{{ area.descripcion }}</ion-select-option>
+                      }
+                    </ion-select>
+                  </ion-item>
+
+                  <ion-item>
+                    <ion-select label="Caja" labelPlacement="floating" formControlName="caja">
+                      @for (usuario of usuariosAdmin; track usuario) {
+                        <ion-select-option [value]="usuario._id">{{ usuario.nombre }} {{ usuario.apellidos }} - {{ usuario.empresa }} - {{ usuario.sede }}</ion-select-option>
+                      }
+                    </ion-select>
+                  </ion-item>
+                  
+                  <div id="my-ion-item">
+                    <div class="my-buttons">
+                      <ion-button (click)="addLineaMontoConcepto()" color="dark" shape="round" slot="start">
+                        <ion-icon slot="icon-only" name="add-outline"></ion-icon>
+                      </ion-button>
+                      <ion-button (click)="removeLineaMontoConcepto()" color="dark" shape="round" slot="start">
+                        <ion-icon slot="icon-only" name="remove-outline"></ion-icon>
+                      </ion-button>
+                    </div>
+                    <ion-label slot="end" class="ion-margin-top">
+                      Total: S/. {{ total | number : '1.2-2' }}
+                    </ion-label>
+                  </div>
+                  
+
+                  <ion-list formArrayName="dynamicMontoConcepto">
+                    <ion-item-group>
+                      <ion-item *ngFor="let field of dynamicMontoConcepto.controls; let i = index" [formGroupName]="i">
+                        <ion-card>
+                          <ion-item>
+                              <ion-input (ionChange)="onMontoInputChange($event)" type="number" label="Monto" labelPlacement="floating" formControlName="monto"/>
+                          </ion-item>
+                          
+                          <ion-item>
+                            <ion-select label="Concepto" labelPlacement="floating" formControlName="concepto">
+                              @for (concept of concepts; track concept) {
+                                <ion-select-option [value]="concept.descripcion">{{ concept.descripcion }}</ion-select-option>
+                              }
+                            </ion-select>
+                          </ion-item>
+                        </ion-card>
+                      </ion-item>
+                      
+                    </ion-item-group>
+                  </ion-list>
+
+                  <!-- <div formArrayName="dynamicMontoConcepto">
+                    <div *ngFor="let field of dynamicMontoConcepto.controls; let i = index" [formGroupName]="i">
+                      <ion-card>
+                        <ion-item>
+                            <ion-input (ionChange)="onMontoInputChange($event)" type="number" label="Monto" labelPlacement="floating" formControlName="monto"/>
+                        </ion-item>
+                        
+                        <ion-item>
+                          <ion-select label="Concepto" labelPlacement="floating" formControlName="concepto">
+                            @for (concept of concepts; track concept) {
+                              <ion-select-option [value]="concept.descripcion">{{ concept.descripcion }}</ion-select-option>
+                            }
+                          </ion-select>
+                        </ion-item>
+                      </ion-card>
+                    </div>
+                  </div> -->
+
+
+                  <ion-checkbox formControlName="cargadoOF">Cargado a OF</ion-checkbox>
+                  @if(moneyRequestForm.controls['cargadoOF'].value) {
+                    <ion-item>
+                      <ion-input type="number" label="Número de OF" labelPlacement="floating" formControlName="numeroOF" />
+                    </ion-item>
+                  }
+
+                  <ion-item>
+                    <ion-textarea label="Descripción" labelPlacement="floating" formControlName="descripcion"/>
+                  </ion-item>
+                  
+
+                  <ion-button type="submit" expand="full" color="dark">Solicitar</ion-button>
+
+                </form>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

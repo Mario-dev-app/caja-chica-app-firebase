@@ -1,0 +1,7 @@
+{
+  "name": "Caja Chica",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

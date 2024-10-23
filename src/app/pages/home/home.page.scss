@@ -1,0 +1,47 @@
+.img-button {
+    width: 3rem;
+    height: 3rem;
+    margin-top: 0.5rem;
+}
+
+/* .my-buttons-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+} */
+
+#click-trigger {
+    --color: white !important;
+}
+
+.my-button {
+    color: white;
+    width: 90%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    font-size: 1rem;
+    text-transform: uppercase;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+
+ion-col {
+    display: flex;
+    justify-content: center;
+}
+
+
+h4 {
+    margin-left: 1.2rem;
+}
+
+/* .gradient-text {
+    background: linear-gradient(to right, rgba(0, 15, 30, 1), rgba(0, 191, 219, 1));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+} */

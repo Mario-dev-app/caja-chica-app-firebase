@@ -1,0 +1,69 @@
+<app-simple-toolbar title="Ver historial"></app-simple-toolbar>
+
+<ion-content [fullscreen]="true">
+    <ion-grid>
+        <ion-row>
+            <ion-col>
+                @for (moneyReq of moneyRequests; track moneyReq) {
+                    <ion-card>
+                        <div class="card-header">
+                            @if(moneyReq.estado === 'APROBADO') {
+                                <ion-chip color="success">{{ moneyReq.estado }}</ion-chip>
+                            }@else if(moneyReq.estado === 'POR REVISAR') {
+                                <ion-chip color="warning">{{ moneyReq.estado }}</ion-chip>
+                                
+                            }@else if(moneyReq.estado === 'RECHAZADO') {
+                                <ion-chip color="danger">{{ moneyReq.estado }}</ion-chip>
+                                
+                            }@else if(moneyReq.estado === 'DESEMBOLSADO') {
+                                <ion-chip color="secondary">{{ moneyReq.estado }}</ion-chip>
+                                
+                            }@else if(moneyReq.estado === 'RENDIDO') {
+                                <ion-chip color="primary">{{ moneyReq.estado }}</ion-chip>
+
+                            }
+                        </div>
+                        <ion-card-content>
+                            <ion-grid>
+                                <ion-row>
+                                    <ion-col class="text-bold text-center">Descripción</ion-col>
+                                    <ion-col size="1">:</ion-col>
+                                    <ion-col>{{ moneyReq.descripcion }}</ion-col>
+                                </ion-row>
+                                <ion-row>
+                                    <ion-col class="text-bold text-center">Fecha</ion-col>
+                                    <ion-col size="1">:</ion-col>
+                                    <ion-col>{{ moneyReq.fecha_registro.split('T')[0] }}</ion-col>
+                                </ion-row>
+                                <ion-row>
+                                    <ion-col class="text-bold text-center">Monto total</ion-col>
+                                    <ion-col size="1">:</ion-col>
+                                    <ion-col>S/. {{ moneyReq.monto_total | number : '1.2-2' }}</ion-col>
+                                </ion-row>
+                                <ion-row>
+                                    <ion-col>
+                                        <table class="table">
+                                            <thead>
+                                                <th>Concepto</th>
+                                                <th>Monto</th>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let detail of moneyReq.details">
+                                                    <td>{{ detail.concepto }}</td>
+                                                    <td>S/. {{ detail.monto | number : '1.2-2' }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </ion-col>
+                                </ion-row>
+                            </ion-grid>
+                        </ion-card-content>
+                    </ion-card>
+                }
+            </ion-col>
+            <ion-infinite-scroll [disabled]="disableInfiniteScroll" (ionInfinite)="onIonInfinite($event)">
+                <ion-infinite-scroll-content></ion-infinite-scroll-content>
+              </ion-infinite-scroll>
+        </ion-row>
+    </ion-grid>
+</ion-content>

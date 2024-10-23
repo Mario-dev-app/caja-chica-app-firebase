@@ -1,0 +1,121 @@
+<app-simple-toolbar title="Aprobaciones"></app-simple-toolbar>
+
+<ion-content [fullscreen]="true">
+
+    <!-- <ion-loading message="Dismissing after 3 seconds..." duration="3000"></ion-loading> -->
+
+    <ion-grid>
+        <ion-row class="ion-justify-content-center">
+            @if(!pendingsMoneyRequest || pendingsMoneyRequest.length === 0) {
+                <ion-col size="12" class="my-flex-box">
+                    <ion-label>Aún no hay solicitudes para revisar</ion-label>
+                    <ion-img src="../../../assets/caja-de-seguridad.png" alt="vacio.png" id="vacio-img" />
+                </ion-col>
+            }
+
+            @for (item of pendingsMoneyRequest; track item) {
+            <ion-col size="11">
+                <ion-card>
+                    @if(item.OF_doc_num) {
+                        <div class="card-header">
+                            <ion-chip color="secondary" (click)="viewOFdetail(item._id)">OF {{ item.OF_doc_num }}</ion-chip>
+                        </div>
+                    }
+                    <ion-card-content>
+                        <ion-grid>
+                            <ion-row>
+                                <ion-col class="text-bold text-center">Descripción</ion-col>
+                                <ion-col size="1">:</ion-col>
+                                <ion-col>{{ item.descripcion }}</ion-col>
+                            </ion-row>
+                            <ion-row>
+                                <ion-col class="text-bold text-center">Solicitante</ion-col>
+                                <ion-col size="1">:</ion-col>
+                                <ion-col>{{ item.user_id.nombre }} {{ item.user_id.apellidos }}</ion-col>
+                            </ion-row>
+                            <ion-row>
+                                <ion-col class="text-bold text-center">Monto total</ion-col>
+                                <ion-col size="1">:</ion-col>
+                                <ion-col>S/. {{ item.monto_total | number : '1.2-2' }}</ion-col>
+                            </ion-row>
+                            <ion-row>
+                                <ion-col>
+                                    <table class="table">
+                                        <thead>
+                                            <th>Concepto</th>
+                                            <th>Monto</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let detail of item.details">
+                                                <td>{{ detail.concepto }}</td>
+                                                <td>S/. {{ detail.monto | number : '1.2-2' }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </ion-col>
+                            </ion-row>
+                            <ion-row class="ion-justify-content-end">
+                                <ion-col size="2">
+                                    <ion-button color="danger" size="small" (click)="action('reject', item._id)">
+                                        <ion-icon slot="icon-only" name="trash-bin"></ion-icon>
+                                    </ion-button>
+                                </ion-col>
+                                <ion-col size="2">
+                                    <ion-button color="success" size="small" (click)="action('accept', item._id)">
+                                        <ion-icon slot="icon-only" name="checkmark-circle"></ion-icon>
+                                    </ion-button>
+                                </ion-col>
+                            </ion-row>
+                        </ion-grid>
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+            }
+        </ion-row>
+    </ion-grid>
+
+    <ion-modal [isOpen]="isOFModalOpen">
+        <ng-template>
+          <ion-header>
+            <ion-toolbar>
+              <ion-title>OF {{ selectedMoneyReq.OF_doc_num }}</ion-title>
+              <ion-buttons slot="end">
+                <ion-button (click)="setOpen(false)">Cerrar</ion-button>
+              </ion-buttons>
+            </ion-toolbar>
+          </ion-header>
+          <ion-content class="ion-padding">
+            <ion-grid>
+                <ion-row>
+                    <ion-col size="4">Cliente</ion-col>
+                    <ion-col size="1">:</ion-col>
+                    <ion-col>{{ selectedMoneyReq.OF_card_name }}</ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col size="4">Fecha de creación</ion-col>
+                    <ion-col size="1">:</ion-col>
+                    <ion-col>{{ selectedMoneyReq.OF_create_date.split(' ')[0] }}</ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col size="4">Servicio</ion-col>
+                    <ion-col size="1">:</ion-col>
+                    <ion-col>{{ selectedMoneyReq.OF_item_code }}</ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col size="4">Descripción serv.</ion-col>
+                    <ion-col size="1">:</ion-col>
+                    <ion-col>{{ selectedMoneyReq.OF_prod_name }}</ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col size="4">Sucursal</ion-col>
+                    <ion-col size="1">:</ion-col>
+                    <ion-col>{{  selectedMoneyReq.OF_sucursal }}</ion-col>
+                </ion-row>
+            </ion-grid>
+          </ion-content>
+        </ng-template>
+      </ion-modal>
+
+
+</ion-content>
+
